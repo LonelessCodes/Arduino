@@ -40,8 +40,8 @@ void setup() {
   Fixture.reset();
 
   dip_switch.begin_I2C(0x20);
-  for (i = 0; i < 10; i++) {
-    dip_switch.pinMode(i, INPUT);
+  for (i = 0; i < sizeof(dip_switch_pins_map); i++) {
+    dip_switch.pinMode(dip_switch_pins_map[i], INPUT);
   }
 
   // 400kHz i2c mode
