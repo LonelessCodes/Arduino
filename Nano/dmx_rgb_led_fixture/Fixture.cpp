@@ -1,4 +1,5 @@
 #include "config.h"
+#include "helpers.h"
 #include "Dimmer.h"
 #include "RandomDimmer.h"
 #include "Color.h"
@@ -19,14 +20,16 @@ RandomDimmer _fixture_rand_dimmer;
 Color _fixture_color;
 Strobe _fixture_strobe;
 
-void _fixture_writePWM(uint8_t led, uint16_t val) {
+void _fixture_writePWM(uint8_t led, byte val) {
   uint16_t driver_i = led / 16;
   uint8_t  led_i    = led % 16;
 
   if (driver_i >= _fixture_driver_len) return;
 
-  _fixture_driver[driver_i].setPin(led_i, val);
+  _fixture_driver[driver_i].setPin(led_i, pgm_read_byte(&gamma[val]));
 }
+
+// FixtureClass
 
 void FixtureClass::begin() {
   uint16_t i;

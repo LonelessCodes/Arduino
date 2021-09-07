@@ -1,6 +1,9 @@
 #define NUM_LIGHTS        6
 #define RGB
-// #define RGBW
+
+#ifndef RGB
+#define RGBW
+#endif
 
 // DEFAULTS
 

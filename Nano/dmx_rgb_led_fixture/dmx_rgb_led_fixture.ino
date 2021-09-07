@@ -24,7 +24,7 @@ void readDMXAddr(uint16_t *addr) {
   uint8_t i;
 
   *addr = 0;
-  for (i = 8; i >= 0; i--) {
+  for (i = 0; i < 9; i++) {
     *addr <<= 1;
     *addr += dip_switch.digitalRead(dip_switch_pins_map[i]);
   }
