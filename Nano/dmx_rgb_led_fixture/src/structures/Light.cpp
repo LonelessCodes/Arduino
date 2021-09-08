@@ -1,5 +1,5 @@
 #include "Light.h"
-#include "helpers.h"
+#include "../helpers.h"
 
 void Light::fade(unsigned long new_duration_ms, float new_to_lvl) {
   if (new_to_lvl == lvl) {
