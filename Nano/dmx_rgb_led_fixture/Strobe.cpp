@@ -1,13 +1,14 @@
 #include "Strobe.h"
 
 void Strobe::set(byte new_strobe) {
-  if (new_strobe == 0) {
+  if (new_strobe == 255) {
     strobe_off_ms = 0;
     strobe_lvl = 1;
   }
   else {
     // new_strobe = 1 - 255
-    strobe_off_ms = 953 - (new_strobe * 3.7); // >0 - 18 Hz --- 10ms - 950ms
+    float val = float(new_strobe + 1) / 255;
+    strobe_off_ms = 953 - (pow(val, 0.2) * 255 * 3.7); // >0 - 18 Hz --- 10ms - 950ms
   }
 }
 

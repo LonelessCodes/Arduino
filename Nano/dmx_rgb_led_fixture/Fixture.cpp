@@ -26,7 +26,7 @@ void _fixture_writePWM(uint8_t led, byte val) {
 
   if (driver_i >= _fixture_driver_len) return;
 
-  _fixture_driver[driver_i].setPin(led_i, pgm_read_byte(&gamma[val]));
+  _fixture_driver[driver_i].setPin(led_i, gamma[val]);
 }
 
 // FixtureClass
@@ -42,18 +42,11 @@ void FixtureClass::begin() {
 void FixtureClass::set(
   byte dimmer_v, byte rand_dimmer_v,
   byte color_r, byte color_g, byte color_b,
-#ifdef RGBW
-  byte color_w,
-#endif
   byte strobe_v
 ) {
   _fixture_dimmer.set(dimmer_v);
   _fixture_rand_dimmer.set(rand_dimmer_v);
-#ifdef RGBW
-  _fixture_color.set(color_r, color_g, color_b, color_w);
-#else
   _fixture_color.set(color_r, color_g, color_b);
-#endif
   _fixture_strobe.set(strobe_v);
 }
 
@@ -65,6 +58,13 @@ void FixtureClass::reset() {
   // Effect.set(EFFECT_DEFL);
   // Speed.set(EFFECT_SPEED_DEFL);
 }
+
+// #define RED_CORR 1.0f
+// #define GRE_CORR 0.9f
+// #define BLU_CORR 0.7f
+#define RED_CORR 1.0f
+#define GRE_CORR 1.0f
+#define BLU_CORR 0.8f
 
 void FixtureClass::update() {
   _fixture_strobe.update();
@@ -78,12 +78,9 @@ void FixtureClass::update() {
   for (i = 0; i < NUM_LIGHTS; i++) {
     brightness_single = brightness_all * _fixture_rand_dimmer.rand_dimmer_lvls[i] /* * effect.effect_light_lvls[i].lvl */;
 
-    _fixture_writePWM(i * 4 + 0, brightness_single * _fixture_color.red_lvl);
-    _fixture_writePWM(i * 4 + 1, brightness_single * _fixture_color.gre_lvl);
-    _fixture_writePWM(i * 4 + 2, brightness_single * _fixture_color.blu_lvl);
-#ifdef RGBW
-    _fixture_writePWM(i * 4 + 3, brightness_single * _fixture_color.wht_lvl);
-#endif
+    _fixture_writePWM(i * 4 + 0, brightness_single * RED_CORR * _fixture_color.red_lvl);
+    _fixture_writePWM(i * 4 + 1, brightness_single * GRE_CORR * _fixture_color.gre_lvl);
+    _fixture_writePWM(i * 4 + 2, brightness_single * BLU_CORR * _fixture_color.blu_lvl);
   }
 }
 

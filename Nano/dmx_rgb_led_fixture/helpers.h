@@ -5,6 +5,6 @@
 
 float lerp_f(float a, float b, float t);
 float mod_f(float a, float m);
-extern const uint16_t PROGMEM gamma[256];
+extern const uint16_t gamma[256];
 
 #endif
