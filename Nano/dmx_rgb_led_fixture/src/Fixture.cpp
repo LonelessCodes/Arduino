@@ -15,7 +15,7 @@ Adafruit_PWMServoDriver Fixture__driver[] = {
   Adafruit_PWMServoDriver(0x40),
   Adafruit_PWMServoDriver(0x41),
 };
-uint8_t Fixture__driver_len = sizeof(Fixture__driver) / sizeof(Adafruit_PWMServoDriver);
+#define Fixture__driver_len (sizeof(Fixture__driver) / sizeof(Adafruit_PWMServoDriver))
 
 Dimmer Fixture__dimmer;
 RandomDimmer Fixture__rand_dimmer;
@@ -24,12 +24,12 @@ Strobe Fixture__strobe;
 Effects Fixture__effect;
 
 void Fixture__writePWM(uint8_t led, byte val) {
-  uint16_t driver_i = led / 16;
-  uint8_t  led_i    = led % 16;
+  uint8_t driver_i = led / 16;
+  uint8_t led_i    = led % 16;
 
   if (driver_i >= Fixture__driver_len) return;
 
-  Fixture__driver[driver_i].setPin(led_i, gamma[val]);
+  Fixture__driver[driver_i].setPin(led_i, (uint16_t)pgm_read_word(gamma + val));
 }
 
 // FixtureClass
@@ -62,13 +62,6 @@ void FixtureClass::reset() {
   // Effects.set(EFFECT_DEFL);
   // Speed.set(EFFECT_SPEED_DEFL);
 }
-
-// #define RED_CORR 1.0f
-// #define GRE_CORR 0.9f
-// #define BLU_CORR 0.7f
-#define RED_CORR 1.0f
-#define GRE_CORR 1.0f
-#define BLU_CORR 0.8f
 
 void FixtureClass::update() {
   Fixture__strobe.update();
