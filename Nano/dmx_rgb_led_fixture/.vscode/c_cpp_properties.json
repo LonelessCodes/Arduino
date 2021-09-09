@@ -18,11 +18,8 @@
                 "/home/lone/Downloads/arduino-1.8.16/hardware/arduino/avr/cores/arduino",
                 "/home/lone/Downloads/arduino-1.8.16/hardware/arduino/avr/variants/standard",
                 "/home/lone/Downloads/arduino-1.8.16/hardware/arduino/avr/libraries/Wire/src",
-                "/home/lone/Downloads/arduino-1.8.16/hardware/arduino/avr/libraries/SPI/src",
                 "/home/lone/Arduino/libraries/DMXSerial/src",
                 "/home/lone/Arduino/libraries/Adafruit_PWM_Servo_Driver_Library",
-                "/home/lone/Arduino/libraries/Adafruit_MCP23017_Arduino_Library/src",
-                "/home/lone/Arduino/libraries/Adafruit_BusIO",
                 "/home/lone/Downloads/arduino-1.8.16/hardware/tools/avr/lib/gcc/avr/7.3.0/include",
                 "/home/lone/Downloads/arduino-1.8.16/hardware/tools/avr/lib/gcc/avr/7.3.0/include-fixed",
                 "/home/lone/Downloads/arduino-1.8.16/hardware/tools/avr/avr/include"
