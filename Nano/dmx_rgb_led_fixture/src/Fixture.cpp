@@ -21,9 +21,12 @@ RandomDimmer Fixture__rand_dimmer;
 Color Fixture__color;
 Strobe Fixture__strobe;
 
+uint8_t driver2map[] = { 3, 0, 1, 4, 5, 6, 7, 8 };
+
 void Fixture__writePWM(uint8_t led, byte val) {
   uint8_t driver_i = led / 16;
   uint8_t led_i    = led % 16;
+  if (driver_i == 1) led_i = driver2map[led - 16];
 
   if (driver_i >= Fixture__driver_len) return;
 
@@ -42,13 +45,15 @@ void FixtureClass::begin() {
   for (i = 0; i < NUM_LIGHTS * 4; i++) {
     Fixture__writePWM(i, 0);
   }
-
-  for (i = 0; i < 32; i++) {
-    Fixture__writePWM(i, 255);
-    delay(500);
-    Fixture__writePWM(i, 0);
-    delay(500);
+  /*
+  while (1) {
+    for (i = 0; i < 24; i++) {
+      Fixture__writePWM(i, 255);
+      delay(800);
+      Fixture__writePWM(i, 0);
+    }
   }
+  */
 }
 
 void FixtureClass::set(
