@@ -14,8 +14,7 @@ class FixtureClass {
     void set(
       byte dimmer_v, byte rand_dimmer_v,
       byte color_r, byte color_g, byte color_b,
-      byte strobe_v,
-      byte effect_v
+      byte strobe_v
     );
     void reset();
     void update();

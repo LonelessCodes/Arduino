@@ -9,7 +9,6 @@
 #include "managers/RandomDimmer.h"
 #include "managers/Color.h"
 #include "managers/Strobe.h"
-#include "managers/Effect.h"
 
 Adafruit_PWMServoDriver Fixture__driver[] = {
   Adafruit_PWMServoDriver(0x40),
@@ -21,7 +20,6 @@ Dimmer Fixture__dimmer;
 RandomDimmer Fixture__rand_dimmer;
 Color Fixture__color;
 Strobe Fixture__strobe;
-Effects Fixture__effect;
 
 void Fixture__writePWM(uint8_t led, byte val) {
   uint8_t driver_i = led / 16;
@@ -40,13 +38,23 @@ void FixtureClass::begin() {
     Fixture__driver[i].begin();
     Fixture__driver[i].setPWMFreq(1600);  // This is the maximum PWM frequency
   }
+
+  for (i = 0; i < NUM_LIGHTS * 4; i++) {
+    Fixture__writePWM(i, 0);
+  }
+
+  for (i = 0; i < 32; i++) {
+    Fixture__writePWM(i, 255);
+    delay(500);
+    Fixture__writePWM(i, 0);
+    delay(500);
+  }
 }
 
 void FixtureClass::set(
   byte dimmer_v, byte rand_dimmer_v,
   byte color_r, byte color_g, byte color_b,
-  byte strobe_v,
-  byte effect_v
+  byte strobe_v
 ) {
   Fixture__dimmer.set(dimmer_v);
   Fixture__rand_dimmer.set(rand_dimmer_v);
@@ -59,13 +67,10 @@ void FixtureClass::reset() {
   Fixture__rand_dimmer.set(RAND_DIMMER_DEFL);
   Fixture__color.set(RED_DEFL, GREEN_DEFL, BLUE_DEFL);
   Fixture__strobe.set(STROBE_DEFL);
-  // Effects.set(EFFECT_DEFL);
-  // Speed.set(EFFECT_SPEED_DEFL);
 }
 
 void FixtureClass::update() {
   Fixture__strobe.update();
-  // Fixture__effect.update();
 
   // update lights
   float brightness_all = Fixture__strobe.strobe_lvl * Fixture__dimmer.dimmer_lvl;
@@ -73,7 +78,7 @@ void FixtureClass::update() {
   uint8_t i;
 
   for (i = 0; i < NUM_LIGHTS; i++) {
-    brightness_single = brightness_all * Fixture__rand_dimmer.rand_dimmer_lvls[i] /* * effect.effect_light_lvls[i].lvl */;
+    brightness_single = brightness_all * Fixture__rand_dimmer.rand_dimmer_lvls[i];
 
     Fixture__writePWM(i * 4 + 0, brightness_single * RED_CORR * Fixture__color.red_lvl);
     Fixture__writePWM(i * 4 + 1, brightness_single * GRE_CORR * Fixture__color.gre_lvl);

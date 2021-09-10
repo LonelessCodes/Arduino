@@ -53,9 +53,7 @@ void loop() {
       DMXSerial.read(DMXAddrSwitch::dmx_addr + RED_CH),
       DMXSerial.read(DMXAddrSwitch::dmx_addr + GREEN_CH),
       DMXSerial.read(DMXAddrSwitch::dmx_addr + BLUE_CH),
-      DMXSerial.read(DMXAddrSwitch::dmx_addr + STROBE_CH),
-      DMXSerial.read(DMXAddrSwitch::dmx_addr + EFFECT_CH)
-      // DMXSerial.read(dmx_start + EFFECT_SPEED_CH)
+      DMXSerial.read(DMXAddrSwitch::dmx_addr + STROBE_CH)
     );
   }
 
